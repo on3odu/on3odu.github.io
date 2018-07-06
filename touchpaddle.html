@@ -6,7 +6,7 @@
 </head>
 <body>
 <script>
-var context = new (window.AudioContext || window.webkitAudioContext)();
+var context = new (window.AudioContext || window.webkitAudioContext)({latencyHint: "interactive"});
 
 var interval;
 
@@ -27,6 +27,7 @@ osc.frequency.value = 700; // Hz
 //osc.connect(context.destination); // connect it to the destination
 osc.start();
 
+alert(context.baseLatency);
 
 function beepAndSchedule(length) {
 		current = length;
