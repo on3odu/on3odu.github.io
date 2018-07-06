@@ -5,15 +5,31 @@
 <title>TouchPaddle</title>
 </head>
 <body>
+  <p id="wpm"></p>
+  <button onclick="changeWpm(+1);">WPM+</button>
+  <button onclick="changeWpm(-1);">WPM-</button>
+  <p id="latency"></p>
 <script>
 var context = new (window.AudioContext || window.webkitAudioContext)({latencyHint: "interactive"});
 
 var interval;
 
-var wpm = 20;
-var ditsPerWord = 50;
-var ditsPerMinute = wpm*ditsPerWord;
-var msPerDit = 60*1000/ditsPerMinute;
+var wpm;
+var msPerDit;
+
+function setWpm(value) {
+  wpm = value;
+  document.getElementById("wpm").innerText = wpm;
+  ditsPerWord = 50;
+  ditsPerMinute = wpm*ditsPerWord;
+  msPerDit = 60*1000/ditsPerMinute;
+}
+
+function changeWpm(delta) {
+  setWpm(wpm+delta);
+}
+
+setWpm(20);
 
 var current = 0;
 
@@ -28,6 +44,8 @@ osc.frequency.value = 700; // Hz
 osc.start();
 
 var latency = context.baseLatency;
+
+document.getElementById("latency").innerText = latency;
 
 function beepAndSchedule(length) {
 		current = length;
