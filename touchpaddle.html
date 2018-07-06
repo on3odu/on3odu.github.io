@@ -10,25 +10,28 @@ var context = new (window.AudioContext || window.webkitAudioContext)();
 
 var interval;
 
-var wpm = 10;
+var wpm = 20;
 var ditsPerWord = 50;
 var ditsPerMinute = wpm*ditsPerWord;
 var msPerDit = 60*1000/ditsPerMinute;
 
 var current = 0;
 
+var	osc = context.createOscillator(); // instantiate an oscillator
+var gain = context.createGain();
+osc.connect(gain);
+gain.gain.value = 0;
+gain.connect(context.destination);
+osc.type = 'sine'; // this is the default - also square, sawtooth, triangle
+osc.frequency.value = 700; // Hz
+//osc.connect(context.destination); // connect it to the destination
+osc.start();
+
+
 function beepAndSchedule(length) {
 		current = length;
-		osc = context.createOscillator(); // instantiate an oscillator
-		//var gain = context.createGain();
-		//osc.connect(gain);
-		//gain.connect(context.destination);
-		//gain.gain.value = -.75;
-		osc.type = 'sine'; // this is the default - also square, sawtooth, triangle
-		osc.frequency.value = 700; // Hz
-		osc.connect(context.destination); // connect it to the destination
-		osc.start();
-		osc.stop(context.currentTime + length*msPerDit/1000);
+		gain.gain.value = 1;
+		gain.gain.setValueAtTime(0, context.currentTime + length*msPerDit/1000);
 		interval = setTimeout(checkButtons, (length+1)*msPerDit);
 }
 
