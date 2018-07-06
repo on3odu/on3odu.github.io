@@ -19,10 +19,10 @@ var msPerDit;
 
 function setWpm(value) {
   wpm = value;
-  document.getElementById("wpm").innerText = wpm;
   ditsPerWord = 50;
   ditsPerMinute = wpm*ditsPerWord;
   msPerDit = 60*1000/ditsPerMinute;
+  document.getElementById("wpm").innerText = "WPM: " + wpm + ", msPerDit: " + msPerDit;
 }
 
 function changeWpm(delta) {
@@ -33,14 +33,13 @@ setWpm(20);
 
 var current = 0;
 
-var	osc = context.createOscillator(); // instantiate an oscillator
+var osc = context.createOscillator(); // instantiate an oscillator
 var gain = context.createGain();
 osc.connect(gain);
 gain.gain.value = 0;
 gain.connect(context.destination);
 osc.type = 'sine'; // this is the default - also square, sawtooth, triangle
 osc.frequency.value = 700; // Hz
-//osc.connect(context.destination); // connect it to the destination
 osc.start();
 
 var latency = context.baseLatency;
@@ -49,9 +48,11 @@ document.getElementById("latency").innerText = latency;
 
 function beepAndSchedule(length) {
 		current = length;
-		gain.gain.value = 1;
-		gain.gain.setValueAtTime(0, context.currentTime + length*msPerDit/1000+latency);
-		interval = setTimeout(checkButtons, (length+1)*msPerDit+latency*1000);
+//		gain.gain.value = 1;
+//		gain.gain.setValueAtTime(0, context.currentTime + length*msPerDit/1000);
+gain.gain.setTargetAtTime(1, context.currentTime, msPerDit/10000)
+gain.gain.setTargetAtTime(0, context.currentTime+ length*msPerDit/1000, msPerDit/10000)
+		interval = setTimeout(checkButtons, (length+1)*msPerDit);
 }
 
 var buttons = [0, 0];
