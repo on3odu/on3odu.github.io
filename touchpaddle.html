@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>TouchPaddle</title>
+</head>
+<body>
+<script>
+var context = new (window.AudioContext || window.webkitAudioContext)();
+
+var interval;
+
+var wpm = 20;
+var ditsPerWord = 50;
+var ditsPerMinute = wpm*ditsPerWord;
+var msPerDit = 60*1000/ditsPerMinute;
+
+var current = 0;
+
+function beepAndSchedule(length) {
+		current = length;
+		osc = context.createOscillator(); // instantiate an oscillator
+		osc.type = 'sine'; // this is the default - also square, sawtooth, triangle
+		osc.frequency.value = 700; // Hz
+		osc.connect(context.destination); // connect it to the destination
+		osc.start();
+		osc.stop(context.currentTime + length*msPerDit/1000);
+		interval = setTimeout(checkButtons, (length+1)*msPerDit);
+}
+
+var buttons = [0, 0];
+
+function checkButtons() {
+	if (buttons[0] == 0 && buttons[1] == 0) {
+		current = 0;
+	}
+	if (buttons[0] == 1 && buttons[1] == 0) {
+		beepAndSchedule(1);
+	}
+	if (buttons[0] == 0 && buttons[1] == 1) {
+		beepAndSchedule(3);
+	}
+	if (buttons[0] == 1 && buttons[1] == 1) {
+		if (current = 1) {
+			beepAndSchedule(3);
+		} else {
+			beepAndSchedule(1);
+		}
+	}
+}
+
+function down(i) {
+  buttons[i] = 1;
+  checkButtons();
+}
+function up(i) {
+  buttons[i] = 0;
+}
+
+</script>
+<BUTTON ontouchstart="down(0);" onmousedown="down(0);" onmouseup="up(0);" ontouchend="up(0);" style="width:40%;height:100px"></BUTTON>
+<BUTTON ontouchstart="down(1);" onmousedown="down(1);" onmouseup="up(1);" ontouchend="up(1);" style="width:40%;height:100px"></BUTTON>
+</body>
+</html>
