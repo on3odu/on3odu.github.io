@@ -27,13 +27,13 @@ osc.frequency.value = 700; // Hz
 //osc.connect(context.destination); // connect it to the destination
 osc.start();
 
-alert(context.baseLatency);
+var latency = context.baseLatency;
 
 function beepAndSchedule(length) {
 		current = length;
 		gain.gain.value = 1;
-		gain.gain.setValueAtTime(0, context.currentTime + length*msPerDit/1000);
-		interval = setTimeout(checkButtons, (length+1)*msPerDit);
+		gain.gain.setValueAtTime(0, context.currentTime + length*msPerDit/1000+latency);
+		interval = setTimeout(checkButtons, (length+1)*msPerDit+latency*1000);
 }
 
 var buttons = [0, 0];
