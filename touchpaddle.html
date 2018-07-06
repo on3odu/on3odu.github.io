@@ -57,18 +57,21 @@ function checkButtons() {
 	}
 }
 
-function down(i) {
-  buttons[i] = 1;
-  if (current == 0) {
-	checkButtons();
+var touched = 0;
+function button(i,isdown,touch) {
+  if (touch == 1) {
+    touched = 1;
   }
-}
-function up(i) {
-  buttons[i] = 0;
+  if (touched == 0 || touch == 1) {
+    buttons[i] = isdown;
+    if (isdown == 1 && current == 0) {
+      checkButtons();
+    }
+  }
 }
 
 </script>
-<BUTTON ontouchstart="down(0);" ontouchend="up(0);" style="width:40%;height:100px"></BUTTON>
-<BUTTON ontouchstart="down(1);" ontouchend="up(1);" style="width:40%;height:100px"></BUTTON>
+<BUTTON onmousedown="button(0,1,0);" onmouseup="button(0,0,0);" ontouchstart="button(0,1,1);" ontouchend="button(0,0,1);" style="width:40%;height:100px"></BUTTON>
+<BUTTON onmousedown="button(1,1,0);" onmouseup="button(1,0,0);" ontouchstart="button(1,1,1);" ontouchend="button(1,0,1);" style="width:40%;height:100px"></BUTTON>
 </body>
 </html>
