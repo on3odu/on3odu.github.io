@@ -6,17 +6,18 @@ CM
 CM 
 CE
 SY h=6.5	'height
-SY f=0.949828
-SY f2=0.970136
-SY m=-1.94159
+SY f=0.48068
+SY f2=0.821173
+SY m=0.312115
 GW	1	2	m	0	h	-3	0	h	.0001	'Wire 1, 9 segments, halve wavelength long.
 GW	2	10	m	0	h	5	0	h	.0001
 GW	3	10	-3	0	h	-3	-4	h	.0001
 GW	4	10	8	-1.5	h	8	-7	h	.0001
-GW	5	10	8	-7	h	8-11*f	-7	h	.0001
+GW	5	10	8	-7	h	-3	-7	h	.0001
 GW	6	10	5	0	h	5	-1.5	h	.0001
 GW	7	10	5	-1.5	h	8	-1.5	h	.0001
 GW	8	10	-3	-4	h	-3+11*f2	-4	h	.0001
+GW	9	2	-3	-7+f*3	h	-3	-7	h	.0001
 GE	1
 GN	2	0	0	0	17	0.007
 EK
