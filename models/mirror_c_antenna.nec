@@ -1,0 +1,30 @@
+CM Example 1 :	Dipole in free space 	
+CM See GetStarted.txt
+CM 
+CM 
+CM 
+CM 
+CE
+SY l=5.4
+SY f=0.511369
+SY dx=l*f
+SY rl=(l*l-dx*dx)^.5
+SY f2=0.944514
+SY dz=rl*f2
+SY f3=0.352056
+SY dz2=l*f3
+SY d=.2
+GW	1	1	0	0	4	0	d	4	.0005
+GW	2	10	0	0	4	0	-dx	4+dz	.0005
+GW	3	10	0	d	4	0	d+dx	4+dz	.0005
+GW	4	10	0	0	4	0	0	4+dz2	.0005
+GW	5	10	0	d	4	0	d	4+dz2	.0005
+GW	6	10	0	d	4+dz2	0	dx	4+dz	.0005
+GW	7	10	0	0	4+dz2	0	-dx+d	4+dz	.0005
+GE	1
+LD	5	0	0	0	58000000
+GN	2	0	0	0	17	0.007
+EK
+EX	0	1	1	0	1	0	0
+FR	0	0	0	0	14.15	0
+EN
